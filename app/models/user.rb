@@ -1,21 +1,20 @@
 # frozen_string_literal: true
-
-### User model: Represents the user who logs in using their Google account.
+#
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
-  has_many :projects
-
-  devise :omniauthable, omniauth_providers: [:google_oauth2]
+  has_secure_password
+  validates :uid, presence: true
+  validates :name, presence: true
+  validates :email, presence: true, format: { with: /\A[\w+\-.]+@cfs\.eco\z/i, message: "must be from the cfs.eco domain" }
+  validates :provider, presence: true
 
   def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      user.email = auth.info.email
-      user.name = auth.info.name
-      user.password = Devise.friendly_token[0, 20]
+    # Only allow users with the cfs.eco domain to sign in
+    return unless auth.info.email =~ /\A[\w+\-.]+@cfs\.eco\z/i
+
+    User.find_or_create_by(uid: response[:uid], provider: response[:provider]) do |u|
+      u.name = auth.info.name
+      u.email = auth.info.name
+      u.password = SecureRandom.hex
     end
   end
-
 end
