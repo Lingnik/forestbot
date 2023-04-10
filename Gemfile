@@ -51,6 +51,8 @@ gem "bootsnap", require: false
 gem "omniauth"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
+gem "bcrypt"
+
 
 
 group :development, :test do
