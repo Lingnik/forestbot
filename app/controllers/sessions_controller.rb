@@ -11,8 +11,7 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to root_path, notice: "Signed in successfully!"
     else
-      flash[:alert] = "You must log in with a valid cfs.eco email address"
-      redirect_to '/login'
+      redirect_to root_path, alert: "You must log in with a valid cfs.eco email address"
     end
   end
 
