@@ -3,12 +3,9 @@
 class SessionsController < ApplicationController
   def omniauth
     user = User.from_omniauth(request.env['omniauth.auth'])
-    puts user.inspect
-    puts user.valid?
-    puts user.errors.inspect
-    puts user.errors.full_messages.inspect
+    puts request.env['omniauth.auth']
     if user.valid?
-      session[:user_id] = user.id
+      session[:user_id] = user.uid
       redirect_to root_path, notice: "Signed in successfully!"
     else
       redirect_to root_path, alert: "You must log in with a valid cfs.eco email address"

@@ -12,7 +12,9 @@ class User < ApplicationRecord
 
     return unless auth.info.email =~ /\A[\w+\-.]+@cfs\.eco\z/i
 
-    User.find_or_create_by(uid: auth.info.uid, provider: auth.info.provider) do |u|
+    User.find_or_create_by(email: auth.info.email) do |u|
+      u.uid = auth.uid
+      u.provider = auth.provider
       u.name = auth.info.name
       u.email = auth.info.email
       u.password = SecureRandom.hex
