@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
   get '/auth/:provider/callback', to: 'sessions#omniauth'
-  get '/login' do
-    redirect_to '/auth/google_oauth2'
-  end
+  get '/login', to: redirect('/auth/google_oauth2')
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
