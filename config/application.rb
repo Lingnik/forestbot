@@ -21,5 +21,15 @@ module Forestbot
     config.session_store :cookie_store, key: '_interslice_session'
     config.middleware.use ActionDispatch::Cookies # Required for all session management
     config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
+
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins 'https://forestbot.herokuapp.com'
+        resource '*',
+                 headers: :any,
+                 methods: %i[get post put patch delete options head],
+                 credentials: true
+      end
+    end
   end
 end
