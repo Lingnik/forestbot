@@ -8,9 +8,11 @@ class User < ApplicationRecord
   validates :provider, presence: true
 
   def self.from_omniauth(auth)
+    puts '!' * 80
+    puts auth
+    puts '!' * 80
     return unless auth.present?
-
-    return unless auth.info.email =~ /\A[\w+\-.]+@cfs\.eco\z/i
+    return unless auth.info.email.downcase.end_with?("@cfs.eco")
 
     User.find_or_create_by(email: auth.info.email) do |u|
       u.uid = auth.uid

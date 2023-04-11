@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
-  def omniauth
+  def omniauth_callback
     user = User.from_omniauth(request.env['omniauth.auth'])
     puts request.env['omniauth.auth']
     if user.valid?
-      session[:user_id] = user.uid
+      session[:user] = user
       redirect_to root_path, notice: "Signed in successfully!"
     else
       redirect_to root_path, alert: "You must log in with a valid cfs.eco email address"
