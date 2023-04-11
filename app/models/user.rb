@@ -8,12 +8,13 @@ class User < ApplicationRecord
   validates :provider, presence: true
 
   def self.from_omniauth(auth)
-    # Only allow users with the cfs.eco domain to sign in
+    return unless auth.present?
+
     return unless auth.info.email =~ /\A[\w+\-.]+@cfs\.eco\z/i
 
-    User.find_or_create_by(uid: response[:uid], provider: response[:provider]) do |u|
+    User.find_or_create_by(uid: auth.info.uid, provider: auth.info.provider) do |u|
       u.name = auth.info.name
-      u.email = auth.info.name
+      u.email = auth.info.email
       u.password = SecureRandom.hex
     end
   end
