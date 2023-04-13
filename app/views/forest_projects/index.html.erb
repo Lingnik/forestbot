@@ -1,0 +1,24 @@
+<h1>Project List</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>Project Name</th>
+    <th>Client Name</th>
+    <th>Status</th>
+    <th>Created At</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @forest_projects.each do |project| %>
+    <tr>
+      <td><%= link_to project.project_name, forest_project_path(project) %></td>
+      <td><%= project.client_name %></td>
+      <td><%= project.status %></td>
+      <td><%= project.created_at %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New Project', new_forest_project_path %>

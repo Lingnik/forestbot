@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
-class Project < ApplicationRecord
+class ForestProject < ApplicationRecord
   belongs_to :user
-  has_one :job
+  has_one :forest_job
 
   has_one_attached :csv
 

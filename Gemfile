@@ -53,7 +53,9 @@ gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 gem "bcrypt"
 gem "rack-cors"
-
+gem "google-apis-drive_v3"
+gem 'webpacker'
+gem "googleauth"
 
 
 group :development, :test do
@@ -78,3 +80,5 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
+
+gem "tailwindcss-rails", "~> 2.0"

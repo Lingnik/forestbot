@@ -1,0 +1,113 @@
+<p id="notice"><%= notice %></p>
+
+<%= link_to 'Back', forest_projects_path %>
+
+<h1><%= @forest_project.project_name %></h1>
+
+<p>
+  <strong>Client:</strong>
+  <%= @forest_project.client_name %>
+</p>
+
+<p>
+  <strong>Created at:</strong>
+  <%= @forest_project.created_at.strftime("%B %d, %Y %H:%M") %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @forest_project.status %>
+</p>
+
+<p>
+<h2>Ratings:</h2>
+<table style="text-align: center" class="table-fixed min-w-full divide-y divide-gray-300">
+  <thead>
+  <tr class="divide-x divide-gray-200">
+    <th scope="col" class="text-center px-4 py-3.5 text-left text-sm font-semibold text-gray-900">Excellent</th>
+    <th scope="col" class="text-center px-4 py-3.5 text-left text-sm font-semibold text-gray-900">Good</th>
+    <th scope="col" class="text-center px-4 py-3.5 text-left text-sm font-semibold text-gray-900">Fair</th>
+    <th scope="col" class="text-center px-4 py-3.5 text-left text-sm font-semibold text-gray-900">Poor</th>
+    <th scope="col" class="text-center px-4 py-3.5 text-left text-sm font-semibold text-gray-900">Dead</th>
+  </tr>
+  </thead>
+  <tbody class="divide-y divide-gray-200 bg-white">
+  <tr class="divide-x divide-gray-200">
+    <td class="whitespace-nowrap p-1 text-sm text-gray-500"><%= @forest_project.excellent %></td>
+    <td class="whitespace-nowrap p-1 text-sm text-gray-500"><%= @forest_project.good %></td>
+    <td class="whitespace-nowrap p-1 text-sm text-gray-500"><%= @forest_project.fair %></td>
+    <td class="whitespace-nowrap p-1 text-sm text-gray-500"><%= @forest_project.poor %></td>
+    <td class="whitespace-nowrap p-1 text-sm text-gray-500"><%= @forest_project.dead %></td>
+  </tr>
+  </tbody>
+</table>
+
+</p>
+
+<p>
+<h2>DBH:</h2>
+<ul>
+  <li><strong>Min:</strong> <%= @forest_project.min_dbh %></li>
+  <li><strong>Max:</strong> <%= @forest_project.max_dbh %></li>
+</ul>
+</p>
+
+
+<div style="width:100%; overflow-x: auto;">
+  <h2>CSV Data:</h2>
+  <div class="px-4 sm:px-6 lg:px-8">
+    <div class="mt-8 flow-root">
+      <div class="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 align-middle">
+          <table class="min-w-full divide-y divide-gray-300">
+            <thead class="sticky">
+            <tr>
+              <th scope="col" class="sticky top-0 z-10 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">pid</th>
+              <th scope="col" class="sticky top-0 z-10 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">common_name</th>
+              <th scope="col" class="sticky top-0 z-10 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">scientific_name</th>
+              <th scope="col" class="sticky top-0 z-10 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">condition</th>
+              <th scope="col" class="sticky top-0 z-10 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">tree_workpruning</th>
+              <th scope="col" class="sticky top-0 z-10 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">tree_workother</th>
+              <th scope="col" class="sticky top-0 z-10 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">tree_tag</th>
+              <th scope="col" class="sticky top-0 z-10 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">dbh</th>
+              <th scope="col" class="sticky top-0 z-10 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">within_years</th>
+              <th scope="col" class="sticky top-0 z-10 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">cycle</th>
+              <th scope="col" class="sticky top-0 z-10 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">tree_height_estimated</th>
+              <th scope="col" class="sticky top-0 z-10 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">crown_spread</th>
+              <th scope="col" class="sticky top-0 z-10 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">notesmgmt</th>
+              <th scope="col" class="sticky top-0 z-10 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">observation_comments</th>
+              <th scope="col" class="sticky top-0 z-10 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">observationscharacteristics</th>
+              <th scope="col" class="sticky top-0 z-10 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">special_equipment</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+            <% @csv_data.each do |row| %>
+              <tr class="divide-x divide-gray-200 hover:bg-indigo-50">
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hover:bg-indigo-100"><%= row[:pid] %></td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hover:bg-indigo-100"><%= row[:common_name] %></td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hover:bg-indigo-100"><%= row[:scientific_name] %></td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hover:bg-indigo-100"><%= row[:condition] %></td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hover:bg-indigo-100"><%= row[:tree_workpruning] %></td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hover:bg-indigo-100"><%= row[:tree_workother] %></td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hover:bg-indigo-100"><%= row[:tree_tag] %></td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hover:bg-indigo-100"><%= row[:dbh] %></td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hover:bg-indigo-100"><%= row[:within_years] %></td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hover:bg-indigo-100"><%= row[:cycle] %></td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hover:bg-indigo-100"><%= row[:tree_height_estimated] %></td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hover:bg-indigo-100"><%= row[:crown_spread] %></td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hover:bg-indigo-100"><%= row[:notesmgmt] %></td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hover:bg-indigo-100"><%= row[:observation_comments] %></td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hover:bg-indigo-100"><%= row[:observationscharacteristics] %></td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hover:bg-indigo-100"><%= row[:special_equipment] %></td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<%= link_to 'Back', forest_projects_path %>
