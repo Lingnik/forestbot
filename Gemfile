@@ -53,10 +53,14 @@ gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 gem "bcrypt"
 gem "rack-cors"
+gem 'google-api-client'
 gem "google-apis-drive_v3"
-gem 'webpacker'
+gem "google-apis-sheets_v4"
+gem "google-apis-docs_v1"
 gem "googleauth"
-
+gem "webpacker"
+gem "activerecord-session_store"
+gem 'redis-rails'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

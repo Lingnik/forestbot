@@ -1,45 +1,21 @@
 # frozen_string_literal: true
+require 'google/apis/drive_v3'
+require 'google/apis/sheets_v4'
+require 'google/apis/docs_v1'
+
 
 class GoogleDriveClient
 
+  def initialize(credentials)
 
-  def initialize(authorization)
-    client_id = Google::Auth::ClientId.new(ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET'])
-    token_store = Google::Auth::Stores::RedisTokenStore.new(redis: Redis.new)
+    @sheets_service = Google::Apis::SheetsV4::SheetsService.new
+    @sheets_service.authorization = credentials
 
-    @Sheets = Google::Apis::SheetsV4::SheetsService.new
-    oauth_scope = 'https://www.googleapis.com/auth/spreadsheets'
-    authorizer = Google::Auth::UserAuthorizer.new(client_id, oauth_scope, token_store)
-    @Sheets.authorization = {
-      client_id: client_id,
-      scope: oauth_scope,
-    }
-    @Drive = Google::Apis::DriveV3::DriveService.new
-    @Docs = Google::Apis::DocsV1::DocsService.new
+    @drive_service = Google::Apis::DriveV3::DriveService.new
+    @drive_service.authorization = credentials
 
-    drive = Google::Apis::DriveV3::DriveService.new
-    drive.authorization = credentials_for()
-    @drive_service = drive
-
-    @drive_service = Google::Apis::DriveV3::DriveService.new.tap do |drive|
-      drive.authorization = authorization
-    end
-    @sheets_service = Google::Apis::SheetsV4::SheetsService.new.tap do |sheets|
-      sheets.authorization = authorization
-    end
-    @docs_service = Google::Apis::DocsV1::DocsService.new.tap do |docs|
-      docs.authorization = authorization
-    end
-  end
-
-  def credentials_for(oauth_scope)
-
-  end
-
-  def x(y)
-
-    @result = drive.list_files(page_size: 10,
-                               fields: 'files(name,modified_time,web_view_link),next_page_token')
+    @docs_service = Google::Apis::DocsV1::DocsService.new
+    @docs_service.authorization = credentials
   end
 
   def create_folder(name, parent_id)

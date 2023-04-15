@@ -1,24 +1,40 @@
-<h1>Project List</h1>
 
-<table>
-  <thead>
-  <tr>
-    <th>Project Name</th>
-    <th>Client Name</th>
-    <th>Status</th>
-    <th>Created At</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% @forest_projects.each do |project| %>
-    <tr>
-      <td><%= link_to project.project_name, forest_project_path(project) %></td>
-      <td><%= project.client_name %></td>
-      <td><%= project.status %></td>
-      <td><%= project.created_at %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+<div class="px-4 sm:px-6 lg:px-8">
+  <div class="sm:flex sm:items-center mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+      <br />
+      <%= link_to 'New Project', new_forest_project_path, class: "block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+    </div>
+  </div>
+  <div class="mt-8 flow-root mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-300">
+            <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Project</th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Client</th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Created</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+            <% @forest_projects.each do |project| %>
+            <tr>
+              <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-indigo-600 hover:text-indigo-900 sm:pl-6"><%= link_to project.project_name, forest_project_path(project) %></td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= project.client_name %></td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= project.status %></td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= project.created_at %></td>
+            </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<%= link_to 'New Project', new_forest_project_path %>
+
+

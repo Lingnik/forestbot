@@ -1,28 +1,23 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Forestbot</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+<html class="h-full bg-gray-100">
+<head>
+  <title>ForestBot</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
-  </head>
-
-  <body>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-
-
-  <% if current_user %>
-  Signed in as <%= current_user.email %>
-  <% else %>
-  <%= link_to "Log in with Google", "/auth/google_oauth2", rel: "nofollow", class: "button" %>
-  <% end %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+</head>
+<body class="h-full">
+<%= render 'layouts/navbar' %>
 
 
-  <%= yield %>
-  </body>
+<%= yield %>
+
+
+<%= render 'layouts/alerts' %>
+</body>
 </html>

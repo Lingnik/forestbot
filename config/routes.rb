@@ -1,3 +1,5 @@
+# config/routes.rb
+
 require "googleauth"
 
 Rails.application.routes.draw do
@@ -8,7 +10,10 @@ Rails.application.routes.draw do
   get "/google/authorize", to: "google#authenticate"
   match "/google/oauth2/callback", to: "google#oauth2_callback", via: :all
 
-  resources :forest_projects, only: [:index, :new, :create, :show]
+  resources :forest_projects do
+    get :download_csv, on: :member
+    get :reprocess, on: :member
+  end
 
   root 'home#index'
 end

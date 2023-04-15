@@ -1,21 +1,44 @@
 require 'csv'
+require 'google_drive_client'
 
-class ProcessForestProject < ActiveJob::Base
+class ProcessForestProject < ApplicationJob
   queue_as :default
 
-  def perform(project_id)
-    project = ForestProject.find(project_id)
+  def perform(project_id, user_id)
+    begin
+      project = ForestProject.find(project_id)
 
-    project.update(status: 'Calculating')
-    csv_data = read_and_validate_csv(project.csv)
-    excellent, good, fair, poor, dead, min_dbh, max_dbh = count_trees(csv_data)
+      project.update(status: 'Calculating')
 
-    project.update(status: 'Creating Docs', excellent: excellent, good: good, fair: fair, poor: poor, dead: dead, min_dbh: min_dbh, max_dbh: max_dbh)
-    folder_id = create_google_drive_folder(project)
-    create_google_spreadsheet(project, folder_id, csv_data)
-    create_google_doc(project, folder_id)
+      csv_data = read_and_validate_csv(project.csv)
+      tree_counts = count_trees(csv_data)
 
-    project.update(status: 'Done')
+      project.update(status: 'Creating Docs', tree_counts: tree_counts)
+
+      conn = GoogleApiConnectionManager.new(user_id)
+      google = GoogleDriveClient.new(conn.credentials)
+
+      folder = google.create_folder(
+        "#{project.client_name} - #{project.project_name}",
+        parent_id: ENV['GOOGLE_DRIVE_FOLDER_ID']
+      )
+      sheet = google.create_spreadsheet_from_template(
+        "#{project.client_name} - #{project.project_name} Spreadsheet",
+        folder,
+        ENV['GOOGLE_SHEETS_TEMPLATE_ID']
+      )
+      doc = google.create_document_from_template(
+        "#{project.client_name} - #{project.project_name} Document",
+        folder,
+        ENV['GOOGLE_DOCS_TEMPLATE_ID']
+      )
+
+      project.update(status: 'Done')
+    rescue StandardError => e
+      # Update project with the error message and set status to 'Error'
+      now = Time.current
+      project.update(status: 'Error', error_message: "#{now}\n\n#{e.message}\n\n#{e.backtrace.join("\n")}")
+    end
   end
 
   private
@@ -41,142 +64,60 @@ class ProcessForestProject < ActiveJob::Base
     end
   end
 
-  def count_trees(csv_data)
-    begin
-      # Initialize tree condition counters
-      excellent = 0
-      good = 0
-      fair = 0
-      poor = 0
-      dead = 0
-
-      # Initialize min and max DBH values
-      min_dbh = Float::INFINITY
-      max_dbh = -Float::INFINITY
-
-      # Iterate through the CSV data
-      csv_data.each do |row|
-        # Update tree condition counters
-        case row[:condition].downcase
-        when 'excellent'
-          excellent += 1
-        when 'good'
-          good += 1
-        when 'fair'
-          fair += 1
-        when 'poor'
-          poor += 1
-        when 'dead'
-          dead += 1
-        else
-          raise "Invalid tree condition: #{row[:condition]}"
-        end
-
-        # Update min and max DBH values
-        dbh = row[:dbh].to_f
-        min_dbh = [min_dbh, dbh].min
-        max_dbh = [max_dbh, dbh].max
+  def summarize_species(csv_data)
+    species_counts = Hash.new
+    csv_data.each do |row|
+      key = row[:common_name].downcase.strip
+      unless species_counts[key]
+        species_counts[key] = {
+          count: 0,
+          common: row[:common_name],
+          latin: row[:scientific_name]
+        }
       end
-
-      [excellent, good, fair, poor, dead, min_dbh, max_dbh]
-    rescue => e
-      project.update(status: 'Error Counting Trees', error_message: e.message)
-      raise e
+      species_counts[key][:count] += 1
     end
+    species_counts.sort_by { |common_name, _| common_name }.to_h
   end
 
-  def create_google_drive_folder(project)
-    begin
-      client = GoogleDriveClient.new
-
-      # Initialize the API client
-      client = Google::Apis::DriveV3::DriveService.new
-      client.authorization = Google::Auth.get_application_default(
-        'https://www.googleapis.com/auth/drive'
-      )
-
-      # Create a new Google Drive folder
-      folder = Google::Apis::DriveV3::File.new(
-        name: "#{project.client_name} - #{project.project_name}",
-        mime_type: 'application/vnd.google-apps.folder'
-      )
-
-      # Insert the folder into the user's Google Drive
-      created_folder = client.create_file(folder)
-
-      # Return the folder ID
-      created_folder.id
-    rescue => e
-      project.update(status: 'Error Creating Folder', error_message: e.message)
-      raise e
+  def summarize_dbh(csv_data)
+    min_dbh = Float::INFINITY
+    max_dbh = -Float::INFINITY
+    csv_data.each do |row|
+      # Update min and max DBH values
+      dbh = row[:dbh].to_f
+      min_dbh = [min_dbh, dbh].min
+      max_dbh = [max_dbh, dbh].max
     end
+
+    { min_dbh: min_dbh, max_dbh: max_dbh }
   end
 
-  def create_google_spreadsheet(project, folder_id, csv_data)
-    begin
-      # Initialize the API client
-      client = Google::Apis::SheetsV4::SheetsService.new
-      client.authorization = Google::Auth.get_application_default(
-        'https://www.googleapis.com/auth/spreadsheets'
-      )
+  def summarize_conditions(csv_data)
+    # Initialize tree condition counters
+    condition_counts = Hash.new(0)
 
-      # Create a new Google Spreadsheet
-      spreadsheet = Google::Apis::SheetsV4::Spreadsheet.new(
-        properties: {
-          title: "#{project.client_name} - #{project.project_name} Spreadsheet"
-        },
-        sheets: [
-          {
-            properties: {
-              title: 'Data',
-              sheet_type: 'GRID'
-            }
-          }
-        ]
-      )
-
-      # Insert the spreadsheet into the specified Google Drive folder
-      created_spreadsheet = client.create_spreadsheet(spreadsheet, folder_id: folder_id)
-
-      # Write the CSV data to the spreadsheet
-      range = 'Data!A1:C'
-      value_range = Google::Apis::SheetsV4::ValueRange.new(values: [csv_data.headers] + csv_data.map(&:values))
-      client.update_spreadsheet_value(created_spreadsheet.spreadsheet_id, range, value_range, value_input_option: 'RAW')
-
-      # Return the spreadsheet ID
-      created_spreadsheet.spreadsheet_id
-    rescue => e
-      project.update(status: 'Error Creating Spreadsheet', error_message: e.message)
-      raise e
+    # Iterate through the CSV data
+    csv_data.each do |row|
+      # Update tree condition counters
+      condition_name = row[:condition].downcase.strip
+      condition_counts[condition_name] += 1
     end
+
+    condition_counts
   end
 
-  def create_google_doc(project, folder_id)
-    begin
-      # Initialize the API client
-      client = Google::Apis::DocsV1::DocsService.new
-      client.authorization = Google::Auth.get_application_default(
-        'https://www.googleapis.com/auth/documents'
-      )
+  def count_trees(csv_data)
+    # begin
+    condition_summary = summarize_conditions(csv_data)
+    species_summary = summarize_species(csv_data)
+    dbh_summary = summarize_dbh(csv_data)
 
-      # Create a new Google Doc
-      doc = Google::Apis::DocsV1::Document.new(
-        title: "#{project.client_name} - #{project.project_name} Document"
-      )
-
-      # Insert the doc into the specified Google Drive folder
-      created_doc = client.create_document(doc, drive_folder_id: folder_id)
-
-      # Update the document with the project data
-      # You can use the Google Docs API to replace placeholders in the document
-      # with the data from the project.
-
-      # Return the document ID
-      created_doc.document_id
-    rescue => e
-      project.update(status: 'Error Creating Doc', error_message: e.message)
-      raise e
-    end
+    { condition_summary: condition_summary, species_summary: species_summary, dbh_summary: dbh_summary }
+    # rescue => e
+    #   project.update(status: 'Error Counting Trees', error_message: e.message)
+    #   raise e
+    # end
   end
 
 end

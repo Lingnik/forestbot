@@ -1,22 +1,42 @@
-<h1>Create a new Project</h1>
+<div class="px-4 sm:px-6 lg:px-8">
+  <div class="sm:flex sm:items-center mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+    <%= form_with model: @forest_project, local: true do |form| %>
+      <div class="space-y-12">
+        <div class="border-b border-gray-900/10 pb-12">
 
-<%= form_with model: @forest_project, local: true do |form| %>
-  <div>
-    <%= form.label :client_name %>
-    <%= form.text_field :client_name %>
+          <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div class="sm:col-span-4">
+              <label for="clientName" class="block text-sm font-medium leading-6 text-gray-900"><%= form.label :client_name %></label>
+              <div class="mt-2">
+                <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                  <%= form.text_field :client_name, class: "block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" %>
+                </div>
+              </div>
+            </div>
+
+            <div class="sm:col-span-4">
+              <label for="clientName" class="block text-sm font-medium leading-6 text-gray-900"><%= form.label :project_name %></label>
+              <div class="mt-2">
+                <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                  <%= form.text_field :project_name, class: "block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" %>
+                </div>
+              </div>
+            </div>
+
+            <div class="sm:col-span-full">
+              <%= form.label :csv, "Upload CSV", class: "block text-sm font-medium leading-6 text-gray-900" %>
+              <%= form.file_field :csv, class: "rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900" %>
+            </div>
+
+          </div>
+        </div>
+
+
+        <div class="mt-6 flex items-center justify-end gap-x-6">
+          <%= link_to 'Back', forest_projects_path, class: "text-sm font-semibold leading-6 text-gray-900" %>
+          <%= form.submit "Create Project", class: "rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+        </div>
+    <% end %>
+    </div>
   </div>
-
-  <div>
-    <%= form.label :project_name %>
-    <%= form.text_field :project_name %>
-  </div>
-
-  <div>
-    <%= form.label :csv, "Upload CSV" %>
-    <%= form.file_field :csv %>
-  </div>
-
-  <%= form.submit "Create Project" %>
-<% end %>
-
-<%= link_to 'Back', forest_projects_path %>
+</div>

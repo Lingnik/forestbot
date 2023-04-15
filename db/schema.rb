@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_11_065957) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_14_041555) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -55,13 +55,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_11_065957) do
     t.string "client_name"
     t.string "project_name"
     t.string "status"
-    t.integer "good"
-    t.integer "fair"
-    t.integer "poor"
-    t.integer "excellent"
-    t.integer "dead"
-    t.float "min_dbh"
-    t.float "max_dbh"
     t.string "csv_url"
     t.string "google_drive_folder_id"
     t.string "google_spreadsheet_id"
@@ -69,6 +62,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_11_065957) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "error_message"
+    t.json "tree_counts"
     t.index ["user_id"], name: "index_forest_projects_on_user_id"
   end
 
