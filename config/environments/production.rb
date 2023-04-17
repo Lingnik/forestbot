@@ -4,7 +4,8 @@ require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-  config.host = "https://forestbot.herokuapp.com"
+  config.host = "forestbot.herokuapp.com"
+  config.hosts << config.host
 
   # Code is not reloaded between requests.
   config.cache_classes = true
