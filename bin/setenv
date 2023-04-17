@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+File.open('.env').each do |line|
+  next if line.strip.empty? || line.start_with?('#')
+  key, value = line.split('=')
+  system("heroku config:set #{key}='#{value.strip}' -a forestbot")
+end
