@@ -49,6 +49,14 @@ gem 'redis-rails'
 # gem 'attr_encrypted'
 # gem "tailwindcss-rails"
 # gem "importmap-rails", "~> 1.1"
+
+# Store activestorage files in postgres:
+#   rails active_storage:install
+#   rails active_storage:postgresql:install
+#   rails db:migrate
+# see config in https://github.com/lsylvester/active_storage-postgresql
+gem 'active_storage-postgresql'
+
 ################################################################################
 
 group :development, :test do

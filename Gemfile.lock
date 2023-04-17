@@ -46,6 +46,9 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
+    active_storage-postgresql (0.3.0)
+      pg (>= 1.0)
+      rails (>= 6.0)
     activejob (7.0.4.3)
       activesupport (= 7.0.4.3)
       globalid (>= 0.3.6)
@@ -313,6 +316,7 @@ PLATFORMS
   arm64-darwin-22
 
 DEPENDENCIES
+  active_storage-postgresql
   activerecord-session_store
   bootsnap
   capybara
