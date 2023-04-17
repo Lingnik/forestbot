@@ -50,7 +50,7 @@ gem 'redis-rails'
 # gem "importmap-rails", "~> 1.1"
 
 # 5.0 doesn't work with session state storage crap
-gem "redis", "~> 4.8.1", "< 5"
+gem "redis", "~> 5.0.6"
 
 # Store activestorage files in postgres:
 #   rails active_storage:install
