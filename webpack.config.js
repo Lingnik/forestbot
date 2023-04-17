@@ -4,9 +4,7 @@ const webpack = require("webpack")
 module.exports = {
   mode: "production",
   devtool: "source-map",
-  entry: {
-    application: "./app/javascript/application.js"
-  },
+  entry: "./app/javascript/application.js",
   output: {
     filename: "[name].js",
     sourceMapFilename: "[file].map",
