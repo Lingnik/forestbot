@@ -2,8 +2,8 @@
   "name": "app",
   "private": "true",
   "engines": {
-    "node": "19.6.x",
-    "npm": "9.4.x",
+    "node": "18.16.0",
+    "npm": "9.5.1",
     "yarn": "1.22.x"
   },
   "dependencies": {
