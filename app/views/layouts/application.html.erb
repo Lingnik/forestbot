@@ -1,0 +1,35 @@
+<% entry_dbg %>
+<!DOCTYPE html>
+<html class="h-full bg-gray-100">
+<head>
+  <title>ForestBot</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script>
+      // Handle the close button click event
+      document.addEventListener('click', (event) => {
+          const closeButton = event.target ? event.target.closest('.close-button') : null;
+          if (closeButton) {
+              closeButton.parentElement.parentElement.parentElement.remove();
+          }
+      });
+  </script>
+  <%= javascript_importmap_tags %>
+</head>
+<body class="h-full">
+<%= render 'layouts/navbar' %>
+
+
+<%= yield %>
+
+
+<%= render 'layouts/alerts' %>
+</body>
+</html>
