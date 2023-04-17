@@ -15,14 +15,14 @@ class ForestProjectJob < ApplicationJob
       project.update(error_message: nil) if project.error_message
       user = User.find(user_id)
 
-      project.update(status: 'Calculating')
+      project.update(status: '👩🏻‍🔬Calculating')
 
       csv_data = read_and_validate_csv(project.csv)
       tree_counts = count_trees(csv_data)
       tree_counts.merge!(count_trees(csv_data, only_fraxinus: true))
       total_ash_trees = tree_counts[:fraxinus_total_sites]
 
-      project.update(status: 'Creating Folder', tree_counts: tree_counts)
+      project.update(status: '👩🏻‍💻Creating Folder', tree_counts: tree_counts)
 
       google = GoogleDriveClient.new(user)
 
@@ -31,7 +31,7 @@ class ForestProjectJob < ApplicationJob
         ENV['GOOGLE_DRIVE_FOLDER_ID']
       )
 
-      _ = project.update!(status: "Creating Sheet", google_drive_folder_id: folder.id)
+      _ = project.update!(status: "👩🏻‍💻Creating Sheet", google_drive_folder_id: folder.id)
       sheet = google.copy_file(
         ENV['GOOGLE_SHEETS_TEMPLATE_ID'],
         "Data- #{project.client_name} - #{project.project_name} - #{project.project_date}",
@@ -41,14 +41,14 @@ class ForestProjectJob < ApplicationJob
       # Populate sheet with CSV data
       google.append_csv_to_spreadsheet(sheet.id, csv_data)
 
-      _ = project.update!(status: "Creating Doc", google_spreadsheet_id: sheet.id)
+      _ = project.update!(status: "👩🏻‍💻Creating Doc", google_spreadsheet_id: sheet.id)
       doc = google.copy_file(
         ENV['GOOGLE_DOCS_TEMPLATE_ID'],
         "Report- #{project.client_name} - #{project.project_name} - #{project.project_date}",
         folder.id
       )
 
-      _ = project.update!(status: "Populating Doc", google_doc_id: doc.id)
+      _ = project.update!(status: "👩🏻‍💻Populating Doc", google_doc_id: doc.id)
       google.replace_placeholders_in_doc_with_values(
         doc.id,
         [
@@ -61,14 +61,14 @@ class ForestProjectJob < ApplicationJob
         ]
       )
 
-      _ = project.update!(status: "Inserting Table")
+      _ = project.update!(status: "👩🏻‍💻Inserting Table")
       google.insert_table_into_doc(doc.id, csv_data)
 
-      project.update(status: 'Done')
+      project.update(status: '✅ Done')
     rescue StandardError => e
       # Update project with the error message and set status to 'Error'
       now = Time.current
-      project.update(status: 'Processing Error', error_message: "#{now}\n\n#{e.message}\n\n#{e.backtrace.join("\n")}")
+      project.update(status: '🛑 Processing Error', error_message: "#{now}\n\n#{e.message}\n\n#{e.backtrace.join("\n")}")
     end
   end
 
@@ -102,7 +102,7 @@ class ForestProjectJob < ApplicationJob
         row.transform_keys! { |key| key.downcase.to_sym }
       end
     rescue => e
-      @project.update(status: 'Error Parsing CSV', error_message: e.message)
+      @project.update(status: '🛑 Error Parsing CSV', error_message: e.message)
       raise e
     end
   end
@@ -124,7 +124,7 @@ class ForestProjectJob < ApplicationJob
 
       csv_data
     rescue => e
-      @project.update(status: 'Error Parsing CSV', error_message: e.message)
+      @project.update(status: '🛑 Error Parsing CSV', error_message: e.message)
       raise e
     end
   end
@@ -214,7 +214,7 @@ class ForestProjectJob < ApplicationJob
         "#{only_fraxinus ? 'fraxinus_' : ''}total_sites": total_sites
       }
     rescue => e
-      @project.update(status: 'Error Counting Trees', error_message: e.message)
+      @project.update(status: '🛑 Error Counting Trees', error_message: e.message)
       raise e
     end
   end
