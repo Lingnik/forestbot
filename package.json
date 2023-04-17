@@ -3,7 +3,8 @@
   "private": "true",
   "engines": {
     "node": "18.x",
-    "npm": "9.x"
+    "npm": "9.x",
+    "yarn": "1.22.x"
   },
   "dependencies": {
     "@hotwired/stimulus": "^3.2.1",
