@@ -74,6 +74,8 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.4)
       public_suffix (>= 2.0.2, < 6.0)
+    attr_encrypted (4.0.0)
+      encryptor (~> 3.0.0)
     bcrypt (3.1.18)
     bindex (0.8.1)
     bootsnap (1.16.0)
@@ -95,17 +97,14 @@ GEM
       irb (>= 1.5.0)
       reline (>= 0.3.1)
     declarative (0.0.20)
+    encryptor (3.0.0)
     erubi (1.12.0)
     faraday (2.7.4)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (3.0.2)
-    gems (1.2.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
-    google-api-client (0.53.0)
-      google-apis-core (~> 0.1)
-      google-apis-generator (~> 0.1)
     google-apis-core (0.11.0)
       addressable (~> 2.5, >= 2.5.1)
       googleauth (>= 0.16.2, < 2.a)
@@ -115,18 +114,10 @@ GEM
       retriable (>= 2.0, < 4.a)
       rexml
       webrick
-    google-apis-discovery_v1 (0.14.0)
-      google-apis-core (>= 0.11.0, < 2.a)
     google-apis-docs_v1 (0.23.0)
       google-apis-core (>= 0.11.0, < 2.a)
     google-apis-drive_v3 (0.37.0)
       google-apis-core (>= 0.11.0, < 2.a)
-    google-apis-generator (0.12.0)
-      activesupport (>= 5.0)
-      gems (~> 1.2)
-      google-apis-core (>= 0.11.0, < 2.a)
-      google-apis-discovery_v1 (~> 0.5)
-      thor (>= 0.20, < 2.a)
     google-apis-sheets_v4 (0.22.0)
       google-apis-core (>= 0.11.0, < 2.a)
     googleauth (1.5.1)
@@ -338,11 +329,12 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-session_store
+  attr_encrypted
   bcrypt
   bootsnap
   capybara
   debug
-  google-api-client
+  google-apis-core
   google-apis-docs_v1
   google-apis-drive_v3
   google-apis-sheets_v4
@@ -361,7 +353,7 @@ DEPENDENCIES
   selenium-webdriver
   sprockets-rails
   stimulus-rails
-  tailwindcss-rails (~> 2.0)
+  tailwindcss-rails
   turbo-rails
   tzinfo-data
   web-console

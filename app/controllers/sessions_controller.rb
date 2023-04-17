@@ -6,18 +6,30 @@ class SessionsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :omniauth_callback
 
   def omniauth_callback
-    user = User.from_omniauth(request.env['omniauth.auth'])
-    if user && user.valid?
-      session[:user_id] = user.id
-      redirect_to root_path, notice: "Signed in successfully!"
-    else
-      redirect_to root_path, alert: "You must log in with a valid cfs.eco email address"
+    entry_dbg
+    user = User.find_or_initialize_by(email: auth.info.email) do |u|
+      u.uid = auth.uid
+      u.provider = auth.provider
+      u.name = auth.info.name
+      u.password = SecureRandom.hex
     end
+    user.update_tokens(auth)
+    session[:user_id] = user.id
+    redirect_to root_path, notice: "Signed in successfully!"
+  end
+
+  def destroy
+    entry_dbg
+    session.clear
+    redirect_to root_path, notice: "Signed out successfully!"
   end
 
   protected
 
-  def auth_hash
+  def auth
+    entry_dbg
     request.env['omniauth.auth']
   end
+
+
 end

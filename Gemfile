@@ -53,14 +53,16 @@ gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 gem "bcrypt"
 gem "rack-cors"
-gem 'google-api-client'
+#gem 'google-api-client'
 gem "google-apis-drive_v3"
 gem "google-apis-sheets_v4"
 gem "google-apis-docs_v1"
+gem 'google-apis-core'
 gem "googleauth"
 gem "webpacker"
 gem "activerecord-session_store"
 gem 'redis-rails'
+gem 'attr_encrypted'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -85,4 +87,4 @@ group :test do
   gem "webdrivers"
 end
 
-gem "tailwindcss-rails", "~> 2.0"
+gem "tailwindcss-rails"

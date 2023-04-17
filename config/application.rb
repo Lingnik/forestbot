@@ -1,6 +1,11 @@
 require_relative "boot"
-
 require "rails/all"
+require 'attr_encrypted'
+
+# Limit this to when the app is running in development mode
+if Rails.env.development?
+  require_relative '../lib/full_traceback_logger'
+end
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -31,5 +36,10 @@ module Forestbot
     #              credentials: true
     #   end
     # end
+
+    if Rails.env.development?
+      config.middleware.use FullTracebackLogger
+    end
+
   end
 end

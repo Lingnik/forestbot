@@ -16,7 +16,8 @@
               <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Project</th>
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Client</th>
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
-              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Created</th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Uploaded</th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Project Date</th>
             </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white">
@@ -26,6 +27,7 @@
               <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= project.client_name %></td>
               <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= project.status %></td>
               <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= project.created_at %></td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= project.project_date %></td>
             </tr>
             <% end %>
             </tbody>
