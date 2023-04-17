@@ -22,7 +22,7 @@
     "postcss": "^8.4.22"
   },
   "scripts": {
-    "build": "webpack --config webpack.config.js",
+    "build": "webpack --config webpack.config.js --debug",
     "start": "webpack-dev-server --config webpack.config.js"
   },
   "devDependencies": {
