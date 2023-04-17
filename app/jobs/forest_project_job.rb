@@ -1,9 +1,10 @@
-# app/jobs/process_forest_project.rb
+# app/jobs/forest_project_job.rb
+# fka app/jobs/process_forest_project.rb
 
 require 'csv'
 require 'google_drive_client'
 
-class ProcessForestProject < ApplicationJob
+class ForestProjectJob < ApplicationJob
   queue_as :default
 
   def perform(project_id, user_id)

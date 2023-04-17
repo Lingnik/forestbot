@@ -24,7 +24,7 @@ class ForestProjectsController < ApplicationController
     @forest_project = current_user.forest_projects.build(project_params)
 
     if @forest_project.save
-      ProcessForestProject.perform_later(@forest_project.id, session[:user_id])
+      ForestProjectJob.perform_later(@forest_project.id, session[:user_id])
       redirect_to forest_project_path(@forest_project), notice: 'Project created successfully.'
     else
       render :new
@@ -36,7 +36,7 @@ class ForestProjectsController < ApplicationController
     @forest_project = current_user.forest_projects.find(params[:id])
 
     if @forest_project.present?
-      ProcessForestProject.perform_later(@forest_project.id, session[:user_id])
+      ForestProjectJob.perform_later(@forest_project.id, session[:user_id])
       redirect_to forest_project_path(@forest_project), notice: 'File reprocessing started.'
     else
       redirect_to forest_projects_path, alert: 'Project not found.'

@@ -22,7 +22,7 @@ gem "jbuilder"
 # gem "kredis"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
+gem "bcrypt", "~> 3.1.7"
 
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
@@ -47,8 +47,10 @@ gem 'google-apis-core'
 gem "activerecord-session_store"
 gem 'redis-rails'
 # gem 'attr_encrypted'
-# gem "tailwindcss-rails"
 # gem "importmap-rails", "~> 1.1"
+
+# 5.0 doesn't work with session state storage crap
+gem "redis", "~> 4.8.1", "< 5"
 
 # Store activestorage files in postgres:
 #   rails active_storage:install
