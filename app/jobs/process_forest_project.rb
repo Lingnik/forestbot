@@ -54,11 +54,14 @@ class ProcessForestProject < ApplicationJob
           { '{{client_name}}': project.client_name.to_s },
           { '{{project_name}}': project.project_name.to_s },
           { '{{project_date}}': project.project_date.to_s },
-          { '{{total_sites}}': tree_counts[:total].to_s },
+          { '{{total_sites}}': project.total_sites.to_s },
           { '{{total_ash_trees}}': total_ash_trees.to_s },
           { '{{data_table}}': "=IMPORTDATA(\"https://docs.google.com/spreadsheets/d/#{sheet.id}/gviz/tq?tqx=out:csv&sheet=Data\")" }
         ]
       )
+
+      _ = project.update!(status: "Inserting Table")
+      google.insert_table_into_doc(doc.id, csv_data)
 
       project.update(status: 'Done')
     rescue StandardError => e
