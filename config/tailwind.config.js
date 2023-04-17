@@ -17,11 +17,8 @@ module.exports = {
   plugins: [
     require('@tailwindcss/typography'),
     require('@tailwindcss/forms'),
-    require('@tailwindcss/line-clamp'),
     require('@tailwindcss/aspect-ratio'),
 
-    require('@tailwindcss/container-queries'),
-    require('@tailwindcss/ui'),
-    require('@tailwindcss/colors')
+    require('@tailwindcss/container-queries')
   ]
 }
