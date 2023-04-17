@@ -11,6 +11,7 @@ module.exports = {
     filename: "[name].js",
     sourceMapFilename: "[file].map",
     path: path.resolve(__dirname, "app/assets/builds"),
+    hashFunction: "xxhash64"
   },
   plugins: [
     new webpack.optimize.LimitChunkCountPlugin({
