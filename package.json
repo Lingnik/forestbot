@@ -3,29 +3,16 @@
   "private": "true",
   "engines": {
     "node": "18.x",
-    "npm": "9.x",
-    "yarn": "1.22.x"
+    "npm": "9.x"
   },
   "dependencies": {
     "@hotwired/stimulus": "^3.2.1",
     "@hotwired/turbo-rails": "^7.3.0",
-    "@rails/webpacker": "5.4.4",
-    "webpack": "^5.79.0",
-    "webpack-cli": "^5.0.1",
-
-    "tailwindcss": "^3.3.1",
-    "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/aspect-ratio": "^0.4.2",
-    "@tailwindcss/typography": "^0.5.9",
     "@tailwindcss/container-queries": "^0.1.1",
-
-    "postcss": "^8.4.22"
-  },
-  "scripts": {
-    "build": "webpack --config webpack.config.js --debug",
-    "start": "webpack-dev-server --config webpack.config.js"
-  },
-  "devDependencies": {
-    "webpack-dev-server": "^3"
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/typography": "^0.5.9",
+    "postcss": "^8.4.22",
+    "tailwindcss": "^3.3.1"
   }
 }

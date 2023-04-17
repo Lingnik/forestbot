@@ -59,7 +59,6 @@ gem "google-apis-sheets_v4"
 gem "google-apis-docs_v1"
 gem 'google-apis-core'
 gem "googleauth"
-gem "webpacker"
 gem "activerecord-session_store"
 gem 'redis-rails'
 gem 'attr_encrypted'
