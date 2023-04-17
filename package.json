@@ -2,7 +2,7 @@
   "name": "app",
   "private": "true",
   "engines": {
-    "node": "16.x"
+    "node": "19.6.x"
   },
   "dependencies": {
     "@hotwired/stimulus": "^3.2.1",
