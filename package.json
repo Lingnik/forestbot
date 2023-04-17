@@ -2,7 +2,9 @@
   "name": "app",
   "private": "true",
   "engines": {
-    "node": "19.6.x"
+    "node": "19.6.x",
+    "npm": "9.4.x",
+    "yarn": "1.22.x"
   },
   "dependencies": {
     "@hotwired/stimulus": "^3.2.1",
