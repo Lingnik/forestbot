@@ -1,6 +1,6 @@
 require_relative "boot"
 require "rails/all"
-require 'attr_encrypted'
+#require 'attr_encrypted'
 
 # Limit this to when the app is running in development mode
 if Rails.env.development?

@@ -38,14 +38,14 @@ gem "bootsnap", require: false
 gem "omniauth"
 gem "omniauth-google-oauth2"
 # gem "omniauth-rails_csrf_protection"
-# gem "rack-cors"
+gem "rack-cors"
 gem "google-apis-drive_v3"
 gem "google-apis-sheets_v4"
 gem "google-apis-docs_v1"
 gem 'google-apis-core'
 # gem "googleauth"
 gem "activerecord-session_store"
-# gem 'redis-rails'
+gem 'redis-rails'
 # gem 'attr_encrypted'
 # gem "tailwindcss-rails"
 # gem "importmap-rails", "~> 1.1"

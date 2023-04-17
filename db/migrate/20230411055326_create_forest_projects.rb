@@ -10,15 +10,18 @@ class CreateForestProjects < ActiveRecord::Migration[7.0]
 
       t.string :project_type
       t.string :status
-      t.text :error_message, false
+      t.text :error_message
 
       t.string :csv_url
-      t.json :tree_counts, false
+      t.json :tree_counts
       t.string :google_drive_folder_id
       t.string :google_spreadsheet_id
       t.string :google_doc_id
 
       t.timestamps
     end
+
+    add_index :forest_projects, :status, unique: false
+    add_index :forest_projects, :project_type, unique: false
   end
 end
