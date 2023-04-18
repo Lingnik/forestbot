@@ -1,0 +1,20 @@
+#!/bin/sh
+
+set -x
+if [ -d "./.git" ]; then
+  git log -n 1 HEAD | cat
+fi
+ruby -v
+bundle -v
+set +x
+set -e
+
+export RACK_ENV=test
+export RAILS_ENV=test
+
+bundle exec rails db:migrate
+bundle exec rails assets:precompile >/dev/null 2>&1
+bundle exec rspec spec
+bundle exec rubocop
+bundle exec standardrb
+

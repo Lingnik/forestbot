@@ -24,7 +24,7 @@ gem "jbuilder"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"
 
-gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "bootsnap", require: false
 
 # Use Sass to process CSS
@@ -42,10 +42,10 @@ gem "rack-cors"
 gem "google-apis-drive_v3"
 gem "google-apis-sheets_v4"
 gem "google-apis-docs_v1"
-gem 'google-apis-core'
+gem "google-apis-core"
 # gem "googleauth"
 gem "activerecord-session_store"
-gem 'redis-rails'
+gem "redis-rails"
 # gem 'attr_encrypted'
 # gem "importmap-rails", "~> 1.1"
 
@@ -57,13 +57,19 @@ gem "redis", "~> 4.8.1", "< 5"
 #   rails active_storage:postgresql:install
 #   rails db:migrate
 # see config in https://github.com/lsylvester/active_storage-postgresql
-gem 'active_storage-postgresql'
+gem "active_storage-postgresql"
+
+gem "rspec-rails", "~> 6.0"
+gem "rubocop", require: false
+gem "rubocop-rails", require: false
+gem "standard", "~> 1.26"
+gem "yard", "~> 0.9.34"
 
 ################################################################################
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem "debug", platforms: %i[mri mingw x64_mingw]
 end
 
 group :development do
