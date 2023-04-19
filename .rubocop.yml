@@ -1,0 +1,47 @@
+require:
+  - rubocop-capybara
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'db/migrate/2023041*.rb'
+    - 'db/schema.rb'
+    - 'bin/bundle'
+
+Rails:
+  Enabled: true
+
+# Personal Customizations
+Layout/LineLength:
+  Max: 150
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'config/environments/*.rb'
+
+# follow standardrb
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_fixed_indentation
+
+Layout/ArrayAlignment:
+  EnforcedStyle: with_fixed_indentation
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Rails/I18nLocaleTexts:
+  Enabled: false

@@ -1,9 +1,9 @@
+# app/controllers/home_controller.rb
 # frozen_string_literal: true
 
+# HomeController is responsible for handling the root path.
 class HomeController < ApplicationController
   def index
-  end
-
-  def login
+    # noop
   end
 end
