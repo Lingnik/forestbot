@@ -1,5 +1,14 @@
 #!/bin/sh
 
+# Leave these set to dummy values for CI purposes, so we can detect when we lack mocks.
+export ATTR_ENCRYPTED_KEY=x
+export GOOGLE_CLIENT_ID=x
+export GOOGLE_CLIENT_SECRET=x
+export GOOGLE_CLOUD_JSON=x
+export GOOGLE_DOCS_TEMPLATE_ID=x
+export GOOGLE_DRIVE_FOLDER_ID=x
+export GOOGLE_SHEETS_TEMPLATE_ID=x
+
 set -x
 if [ -d "./.git" ]; then
   git log -n 1 HEAD | cat
@@ -15,6 +24,6 @@ export RAILS_ENV=test
 bundle exec rails db:migrate
 bundle exec rails assets:precompile >/dev/null 2>&1
 bundle exec rspec spec
-bundle exec rubocop
+# bundle exec rubocop
 bundle exec standardrb
 

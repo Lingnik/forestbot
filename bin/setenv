@@ -1,7 +1,12 @@
 #!/usr/bin/env ruby
 
-File.open('.env').each do |line|
-  next if line.strip.empty? || line.start_with?('#')
-  key, value = line.split('=')
+# bin/setenv
+# frozen_string_literal: true
+
+# This script deploys the .env file to Heroku.
+
+File.open(".env").each do |line|
+  next if line.strip.empty? || line.start_with?("#")
+  key, value = line.split("=")
   system("heroku config:set #{key}='#{value.strip}' -a forestbot")
 end

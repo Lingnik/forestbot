@@ -1,7 +1,8 @@
 # app/controllers/sessions_controller.rb
-
 # frozen_string_literal: true
 
+# SessionsController is responsible for handling the OAuth callback from
+# Google and for handling user logout.
 class SessionsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :omniauth_callback
 
@@ -28,8 +29,6 @@ class SessionsController < ApplicationController
 
   def auth
     entry_dbg
-    request.env['omniauth.auth']
+    request.env["omniauth.auth"]
   end
-
-
 end

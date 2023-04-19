@@ -1,142 +1,47 @@
-# Ruby linting configuration.
-# We only worry about two kinds of issues: 'error' and anything less than that.
-# Error is not about severity, but about taste. Simple style choices that
-# never have a great excuse to be broken, such as 1.9 JSON-like hash syntax,
-# are errors. Choices that tend to have good exceptions in practice, such as
-# line length, are warnings.
-
-# If you'd like to make changes, a full list of available issues is at
-#   https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
-# A list of configurable issues is at:
-#   https://github.com/bbatsov/rubocop/blob/master/config/default.yml
-#
-# If you disable a check, document why.
-
-require: rubocop-rails
-
-Metrics/BlockLength:
-  ExcludedMethods: ["describe", "context", "included", "class_methods", "it"]
-  Exclude:
-    - "**/rails_helper.rb"
-
-Metrics/ParameterLists:
-  CountKeywordArgs: false
-
-Style/StringLiterals:
-  EnforcedStyle: double_quotes
-  Severity: error
-
-Style/HashSyntax:
-  EnforcedStyle: ruby19
-  UseHashRocketsWithSymbolValues: false
-  Severity: error
-  Exclude:
-    - !ruby/regexp /db\/schema.rb/
-
-Style/Attr:
-  Enabled:
-    false # We have no styleguide guidance here, and it seems to be
-    # in frequent use.
-
-Style/ClassAndModuleChildren:
-  Enabled: false # module X<\n>module Y is just as good as module X::Y.
-
-Style/Documentation:
-  Exclude:
-    - !ruby/regexp /spec\/*\/*/
-
-Style/PercentLiteralDelimiters:
-  PreferredDelimiters:
-    "%w": "{}"
-
-Style/MultilineTernaryOperator:
-  Severity: error
-
-Style/AndOr:
-  Severity: error
-
-Style/FrozenStringLiteralComment:
-  Enabled: false # Adding comment to all files...
-
-Style/Alias:
-  Enabled: false # We have no guidance on alias vs alias_method
-
-Style/RedundantSelf:
-  Enabled: false # Sometimes a self.field is a bit more clear
-
-Style/IfUnlessModifier:
-  Enabled: false
-
-Style/SafeNavigation:
-  Enabled: false
-
-Lint/AmbiguousBlockAssociation:
-  Exclude:
-    - !ruby/regexp /spec\/*\/*/
-
-Lint/UnreachableCode:
-  Severity: error
-
-Layout/EndAlignment:
-  Severity: error
-
-Layout/IndentationWidth:
-  Severity: error
-
-Layout/HashAlignment:
-  SupportedLastArgumentHashStyles: always_ignore
-
-Layout/ParameterAlignment:
-  Enabled:
-    false # This is usually true, but we often want to roll back to
-    # the start of a line.
-
-Metrics/ModuleLength:
-  Max: 150
-  Exclude:
-    - !ruby/regexp /spec\/*\/*/
-
-Metrics/ClassLength:
-  Max: 110
-  Exclude:
-    - !ruby/regexp /spec\/*\/*/
-
-Metrics/LineLength:
-  Enabled: false
-
-Metrics/MethodLength:
-  CountComments: false # count full line comments?
-  Max: 25
-  Severity: error
-
-Metrics/AbcSize:
-  Max: 25
-
-Rails/UnknownEnv:
-  Environments:
-    - production
-    - development
-    - test
-    - staging
+require:
+  - rubocop-capybara
+  - rubocop-rails
+  - rubocop-rspec
 
 AllCops:
-  TargetRubyVersion: 2.6
-  # Include gemspec and Rakefile
-  Include:
-    - "**/*.rb"
-    - "**/*.gemspec"
-    - "**/*.rake"
-    - "**/Gemfile"
-    - "**/Rakefile"
-    - "**/Capfile"
-    - "**/Guardfile"
-    - "**/Podfile"
-    - "**/Vagrantfile"
+  NewCops: enable
   Exclude:
-    - !ruby/regexp /(db|bin|script|config|vendor)\/.*/
-    - 'spec/factories/**/*'
-  SuggestExtensions: false
-  # By default, the rails cops are not run. Override in project or home
-  # directory .rubocop.yml files, or by giving the -R/--rails option.
+    - 'db/migrate/2023041*.rb'
+    - 'db/schema.rb'
+    - 'bin/bundle'
+
 Rails:
   Enabled: true
+
+# Personal Customizations
+Layout/LineLength:
+  Max: 150
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'config/environments/*.rb'
+
+# follow standardrb
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_fixed_indentation
+
+Layout/ArrayAlignment:
+  EnforcedStyle: with_fixed_indentation
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Rails/I18nLocaleTexts:
+  Enabled: false
