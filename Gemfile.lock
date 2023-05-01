@@ -116,7 +116,7 @@ GEM
       webrick
     google-apis-docs_v1 (0.23.0)
       google-apis-core (>= 0.11.0, < 2.a)
-    google-apis-drive_v3 (0.37.0)
+    google-apis-drive_v3 (0.39.0)
       google-apis-core (>= 0.11.0, < 2.a)
     google-apis-sheets_v4 (0.22.0)
       google-apis-core (>= 0.11.0, < 2.a)
